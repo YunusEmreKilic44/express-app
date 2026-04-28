@@ -25,13 +25,11 @@ app.get("/api/users", (req, res) => {
   } = req;
 
   // when filter and value are undefined
-  if (!filter && !value) {
-    return res.send(mockUsers);
-  }
 
   if (filter && value) {
     return res.send(mockUsers.filter((user) => user[filter].includes(value)));
   }
+  return res.send(mockUsers);
 });
 
 app.get("/api/users/:id", (req, res) => {
