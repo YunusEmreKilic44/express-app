@@ -81,6 +81,42 @@ app.put("/api/users/:id", (req, res) => {
   return res.sendStatus(200);
 });
 
+app.patch("/api/users/:id", (req, res) => {
+  const {
+    body,
+    params: { id },
+  } = req;
+
+  const parsedId = parseInt(id);
+  if (isNaN(parsedId)) return res.sendStatus(400);
+
+  const findUserIndex = mockUsers.findIndex((user) => user.id === parsedId);
+
+  if (findUserIndex === -1) return res.statusCode(404);
+
+  mockUsers[findUserIndex] = { ...mockUsers[findUserIndex], ...body };
+
+  return res.sendStatus(200);
+});
+
+app.delete("/api/users/:id", (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  const parseId = parseInt(id);
+
+  if (isNaN(parseId)) return res.statusCode(400);
+
+  const findUserIndex = mockUsers.findIndex((user) => user.id === parseId);
+
+  if (findUserIndex === -1) return res.sendStatus(404);
+
+  mockUsers.splice(findUserIndex, 1);
+
+  return res.sendStatus(200);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}...`);
 });
