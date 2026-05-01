@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -6,6 +7,7 @@ const usersRouter = require("./routes/users");
 const productsRouter = require("./routes/products");
 
 app.use(express.json());
+app.use(cookieParser("helloworld"));
 
 app.use(usersRouter);
 app.use(productsRouter);
@@ -13,6 +15,10 @@ app.use(productsRouter);
 const PORT = process.env.PORT || 3000;
 
 app.get("/", (req, res) => {
+  res.cookie("hello", "world", {
+    maxAge: 60000 * 60,
+    signed: true,
+  });
   res.status(201).send({ msg: "Hello" });
 });
 
